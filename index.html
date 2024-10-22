@@ -4,35 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brew&Blend-Home</title>
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon"> 
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <Header>
+    <header>
         <img id="logo-brewblend" src="/images/Brew&Blend.png" alt="Brew&Blend">
-    </Header>
+        
+    </header>
     <main>
-        <section>
+        <div class="bem-vindo">
             <h1>Seja Bem-Vindo!</h1>
             <p>Por onde deseja começar?</p>
-            <div class="menu-icons">
-                <div>
-                    <img src="" alt="Bebidas" class="icon-menu">
+        </div>
+        <section id="menu-inicial">
+            <div class="menu-option">
+                <button class="icon">
+                    <img src="/images/coffee-icon.png" alt="Bebidas" class="icon-menu">
                     <p>Bebidas</p>
-                </div>
-                <div>
-                    <img src="" alt="Padaria" class="icon-menu">
+                </button>
+                <button class="icon">
+                    <img src="/images/croissant-icon.png" alt="Padaria" class="icon-menu">
                     <p>Padaria</p>
-                </div>
-                <div>
-                    <img src="" alt="Sobremesas classicon-menu">
+                </button>
+                <button class="icon">
+                    <img src="/images/cupcake-icon.png" alt="Sobremesas" class="icon-menu">
                     <p>Sobremesas</p>
-                </div>
+                </button>
             </div>
         </section>
-        <section>
+        <section id="menu-combo">
             <div>
-                <h2>Combo do Dia</h2>
-                <div><img src="" alt="Combo">
-                    <!--Devo linkar a exibição do  banco de daods, para que cada dia apareça um item-->
+                <h2>Combos do Dia</h2>
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="/images/combo-coffee.png" class="combo-img" alt="Combo">
+                            <!--Devo linkar a exibição do  banco de daods, para que cada dia apareça um item-->
+                        </div>
+                        <div class="flip-card-back">
+                            <img src="/images/flip-back-cover.png" class="combo-img" alt="preço">
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
