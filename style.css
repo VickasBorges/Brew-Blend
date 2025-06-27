@@ -111,9 +111,8 @@ main {
 #combo-do-dia {
     width: 100%;
     text-align: center;
-    font-size: 90px;
     margin-bottom: 20px; /* Adiciona espaço entre o texto e os cartões */
-    font-size: 18px; /* Ajusta o tamanho da fonte conforme necessário */
+    font-size: 85px; /* Ajusta o tamanho da fonte conforme necessário */
     color: #000;
 }
 .flip-card-container-wrapper {
@@ -191,9 +190,6 @@ main {
 
 /* para celular */
 @media (max-width: 450px) {
-    html, body {
-        height: 100%;
-    }
 
     /* para configurar o banner responsivo */
     #logo-brewblend {
@@ -204,16 +200,11 @@ main {
         width: 95%; /* Ajuste a altura conforme necessário */
     }
 
-    main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    }
+
     /* ajustes para menu inicial */
     #menu-inicial {
-        width: 100%;
+        width: 90%;
+        height: auto;
         padding: 10px;
         display: flex; /* Certifica-se de que o flexbox está ativado */
         justify-content: space-evenly;
@@ -226,10 +217,15 @@ main {
         flex-direction: row;
     }
     .icon {
-        flex-direction: column;
         padding: 5px;
-        font-size: 14px;
-        margin-bottom: 10px; /* Adiciona espaço entre os ícones */
+        font-size: 3vw;
+        flex-direction: column;
+        min-width: 10%;
+        height: auto;
+    }
+    .icon img {
+        width: 100%;
+        height: auto;
     }
     .icon p {
         display: none; /* Oculta o texto em telas menores */
@@ -238,28 +234,36 @@ main {
         display: flex;
         flex-direction: column; /* Alinha os cartões verticalmente */
         align-items: center;
-        width: 95%;
-        height: 1100px; /* Ajusta a altura automaticamente */
-        padding: 20px 0;
+        width: 95vw;
+        height: auto; /* Ajusta a altura automaticamente */
     }
-    .flip-card-container {
-        width: 80%;
+    #combo-do-dia {
+        text-align: center;
+        margin-bottom: 8px; /* Adiciona espaço entre o texto e os cartões */
+        font-size: 18vw; /* Ajusta o tamanho da fonte conforme necessário */
+    }
+    .flip-card-container-wrapper{
         display: flex;
-        flex-direction: column; /* Alinha os cartões verticalmente */
-        align-items: center; /* Certifica-se de que os cartões estão centralizados */
-        justify-content: space-evenly; /* Centraliza horizontalmente */
-        margin-bottom: 30px;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        gap: 25px;
+        width: 100%;
+    }
+    .flip-card-container{
+        width: 100%;
+        height: auto;
     }
     
     .flip-card {
         width: 100%; /* Faz os cartões ocuparem a largura total da tela */
-        height: auto; /* Ajusta a altura conforme necessário */
-        margin-bottom: 10px; /* Reduz o espaço entre os cartões */
+        margin-bottom: 10px;
     }
     
     .combo-img {
-        height: auto; /* Ajusta a altura da imagem dentro do cartão */
         width: 95%; /* Mantém a proporção da imagem */
+        height: auto;
+        margin: 0 auto;
     }
 }
 
