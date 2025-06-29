@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Brew&Blend – Finalizar Compra</title>
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+      html, body {
+        height: 100%;
+      }
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background: #fff8e1;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        color: #ad1457;
+        margin: 0;
+      }
+      header {
+        background: #fde4ec;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 1.2em 0 0.7em 0;
+        box-sizing: border-box;
+        position: relative;
+      }
+      #logo-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        z-index: 2;
+      }
+      #logo-brewblend {
+        width: 500px;
+        height: auto;
+        max-width: 98vw;
+        margin: 0 auto;
+        display: block;
+      }
+      #logo-brewblend-compact {
+        width: 60px;
+        height: auto;
+        margin-left: 0.5em;
+        display: none;
+      }
+      #basket-link {
+        position: fixed;
+        top: 18px;
+        right: 24px;
+        z-index: 1001;
+        background: #fde4ec;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px #ad145733;
+        padding: 0.3em;
+        transition: box-shadow 0.18s;
+      }
+      #basket-link:hover {
+        box-shadow: 0 6px 24px #ad145733;
+      }
+      @media (max-width: 600px) {
+        #logo-brewblend {
+          width: 300px;
+        }
+        #logo-brewblend-compact {
+          width: 38px;
+        }
+        #basket-link {
+          top: 10px;
+          right: 10px;
+          padding: 0.15em;
+        }
+      }
+      main {
+        flex: 1 0 auto;
+        max-width: 480px;
+        margin: 2em auto 0 auto;
+        background: #fde4ec;
+        border-radius: 18px;
+        box-shadow: 0 4px 24px #ad14571a;
+        padding: 2em 1.5em 1.5em 1.5em;
+        animation: fadein 0.7s cubic-bezier(.4,1.4,.6,1);
+      }
+      @keyframes fadein {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: none; }
+      }
+      h1 {
+        color: #ad1457;
+        text-align: center;
+        margin-bottom: 1.2em;
+      }
+      /* Ajustes de proporção para campos e radios */
+      .form-group, fieldset.form-group {
+        margin-bottom: 0.9em;
+        gap: 0.2em;
+      }
+      label, legend {
+        color: #ad1457;
+        font-weight: 500;
+        margin-bottom: 0.2em;
+      }
+      input[type="text"] {
+        border: 2px solid #f8bbd0;
+        border-radius: 8px;
+        padding: 0.5em 0.8em;
+        font-size: 1em;
+        background: #fff8e1;
+        color: #ad1457;
+        transition: border 0.2s, box-shadow 0.2s;
+        outline: none;
+      }
+      input[type="text"]:focus {
+        border-color: #ad1457;
+        box-shadow: 0 0 0 2px #fde4ec;
+        background: #fff;
+      }
+      fieldset.form-group {
+        border: 2px solid #f8bbd0;
+        border-radius: 10px;
+        padding: 0.7em 0.7em 0.5em 0.7em;
+        background: #fff8e1;
+        transition: border 0.2s;
+      }
+      fieldset.form-group:focus-within {
+        border-color: #ad1457;
+      }
+      input[type="radio"] {
+        accent-color: #ad1457;
+        width: 1.1em;
+        height: 1.1em;
+        vertical-align: middle;
+        margin-right: 0.4em;
+        margin-bottom: 0.1em;
+      }
+      fieldset.form-group label {
+        display: inline-block;
+        margin-bottom: 0.1em;
+        font-size: 1em;
+        vertical-align: middle;
+      }
+      fieldset.form-group br {
+        line-height: 0.7;
+      }
+      .btn-submit {
+        background: linear-gradient(90deg, #ad1457 60%, #f8bbd0 100%);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.2em;
+        font-weight: bold;
+        padding: 0.8em 2em;
+        box-shadow: 0 2px 8px #ad145733;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.7em;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        transition: background 0.2s, transform 0.18s cubic-bezier(.4,1.4,.6,1), box-shadow 0.18s;
+      }
+      .btn-submit:hover {
+        background: linear-gradient(90deg, #c2185b 60%, #f06292 100%);
+        transform: scale(1.04) translateY(-2px);
+        box-shadow: 0 6px 24px #ad145733;
+      }
+      .btn-submit:active {
+        transform: scale(0.97) translateY(1px);
+      }
+      /* Resetando tamanho dos ícones dos botões Limpar Carrinho e Concluir Compra */
+      #clear-cart img,
+      .btn-submit img {
+        width: initial !important;
+        height: initial !important;
+        min-width: unset;
+        min-height: unset;
+        max-width: unset;
+        max-height: unset;
+      }
+      /* Ícone do botão de envio do checkout exatamente 40px */
+      .btn-submit img {
+        width: 40px !important;
+        height: 40px !important;
+        min-width: 40px;
+        min-height: 40px;
+        max-width: 40px;
+        max-height: 40px;
+        vertical-align: middle;
+        margin: 0;
+      }
+      /* Ripple effect */
+      .btn-submit .ripple {
+        position: absolute;
+        border-radius: 50%;
+        transform: scale(0);
+        animation: ripple-effect 0.5s linear;
+        background: rgba(255,255,255,0.25);
+        pointer-events: none;
+        z-index: 2;
+      }
+      @keyframes ripple-effect {
+        to {
+          transform: scale(2.5);
+          opacity: 0;
+        }
+      }
+      footer {
+        flex-shrink: 0;
+        margin-top: auto;
+        margin-top: 2em;
+        text-align: center;
+        color: #ad1457;
+        background: #fde4ec;
+        padding: 1em 0 0.5em 0;
+        border-radius: 0 0 18px 18px;
+        box-shadow: 0 -2px 8px #ad14571a;
+      }
+      .radio-option {
+        padding: 0.5em 0.3em 0.5em 0.1em;
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        border-radius: 7px;
+        transition: background 0.18s;
+      }
+      .radio-option:hover {
+        background: #fde4ec;
+      }
+      fieldset.form-group legend {
+        color: #ad1457;
+        font-weight: 500;
+        font-size: 1em;
+        padding-left: 2px;
+        text-align: left;
+        width: 100%;
+        display: block;
+        margin-bottom: 0.3em;
+        margin-top: 0.1em;
+        line-height: 1.2;
+      }
+      /* Ícone do basket-shopping sempre visível no topo direito */
+      #basket-link {
+        position: fixed;
+        top: 18px;
+        right: 24px;
+        z-index: 1001;
+        background: #fde4ec;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px #ad145733;
+        padding: 0.3em;
+        transition: box-shadow 0.18s;
+      }
+      #basket-link:hover {
+        box-shadow: 0 6px 24px #ad145733;
+      }
+      @media (max-width: 600px) {
+        main {
+          padding: 0.7em 0.1em;
+        }
+        .btn-submit {
+          font-size: 0.97em;
+          padding: 0.6em 0.7em;
+        }
+        input[type="text"] {
+          font-size: 0.97em;
+          padding: 0.4em 0.6em;
+        }
+        fieldset.form-group {
+          padding: 0.5em 0.3em 0.3em 0.3em;
+        }
+        #basket-link {
+          top: 10px;
+          right: 10px;
+          padding: 0.15em;
+        }
+      }
+    </style>
+    <script>
+      // Ripple effect para o botão de envio
+      document.addEventListener('DOMContentLoaded', function() {
+        const btn = document.querySelector('.btn-submit');
+        if (btn) {
+          btn.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            ripple.className = 'ripple';
+            const rect = btn.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+            ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+            btn.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 500);
+          });
+        }
+      });
+    </script>
+</head>
+<body>
+  <header>
+    <a href="index.html" id="logo-link">
+      <img id="logo-brewblend" src="images/brew-blendBanner.png" alt="Brew&Blend">
+      <img id="logo-brewblend-compact" src="images/brew-Blend.png" alt="Brew&Blend">
+    </a>
+    <a href="carrinho.html" id="basket-link" aria-label="Carrinho com 0 itens" data-count="0">
+      <img id="basket-shopping" src="images/picnic-basket.png" alt="">
+    </a>
+  </header>
+
+  <main>
+    <h1>Finalizar Compra</h1>
+    <section id="order-summary"></section>
+    <form id="checkout-form">
+      <div class="form-group">
+        <label for="customerName">Nome completo</label>
+        <input type="text" id="customerName" name="customerName" required>
+      </div>
+
+      <div class="form-group">
+        <label for="customerAddress">Endereço de entrega</label>
+        <input type="text" id="customerAddress" name="customerAddress" required>
+      </div>
+
+      <fieldset class="form-group">
+        <legend>Forma de pagamento</legend>
+
+        <div class="radio-option">
+          <input type="radio" id="pay-cartao" name="payment-method" value="Cartão de Crédito" required>
+          <label for="pay-cartao">Cartão de Crédito</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" id="pay-pix" name="payment-method" value="PIX">
+          <label for="pay-pix">PIX</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" id="pay-dinheiro" name="payment-method" value="Dinheiro">
+          <label for="pay-dinheiro">Dinheiro</label>
+        </div>
+      </fieldset>
+
+      <button type="submit" class="btn-submit" style="display: flex; align-items: center; gap: 0.7em; justify-content: center;">
+        <img src="images/whatsapp.png" alt="Enviar Pedido" style="width:40px;height:40px;vertical-align:middle;">
+        Enviar Pedido via WhatsApp
+      </button>
+      <div id="feedback-message" style="margin-top:1em; text-align:center; font-size:1.1em; font-weight:500;"></div>
+    </form>
+  </main>
+
+  <footer>
+    <p>© 2025 Brew&Blend. Todos os direitos reservados.</p>
+  </footer>
+
+  <script type="module" src="js/checkout.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('checkout-form');
+      const feedback = document.getElementById('feedback-message');
+      if(form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          feedback.textContent = '';
+          // Simulação do envio para WhatsApp
+          try {
+            // Aqui normalmente você montaria a mensagem e abriria o WhatsApp
+            const win = window.open('https://wa.me/?text=Pedido%20Brew%26Blend', '_blank');
+            if(win) {
+              feedback.style.color = '#388e3c';
+              feedback.textContent = 'Pedido enviado com sucesso! Você será redirecionado para o WhatsApp.';
+              setTimeout(() => { feedback.textContent = ''; }, 5000);
+            } else {
+              throw new Error('Não foi possível abrir o WhatsApp.');
+            }
+          } catch(err) {
+            feedback.style.color = '#ad1457';
+            feedback.textContent = 'Erro ao enviar o pedido. Por favor, verifique seu navegador ou tente novamente.';
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

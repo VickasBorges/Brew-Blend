@@ -1,83 +1,438 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brew&Blend-Home</title>
-    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon"> 
-    <link rel="stylesheet" href="/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Brew&Blend – Home</title>
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Fundo uniforme para o header e seus elementos */
+    header {
+      background: #fde4ec;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 1.2em 0 0.7em 0;
+      box-sizing: border-box;
+      position: relative;
+    }
+    #logo-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      z-index: 2;
+    }
+    #logo-brewblend {
+      width: 500px;
+      height: auto;
+      max-width: 98vw;
+      margin: 0 auto;
+      display: block;
+    }
+    #logo-brewblend-compact {
+      width: 60px;
+      height: auto;
+      margin-left: 0.5em;
+      display: none;
+    }
+    @media (max-width: 600px) {
+      #logo-brewblend {
+        width: 300px;
+      }
+      #logo-brewblend-compact {
+        width: 38px;
+      }
+    }
+    #basket-link {
+      position: fixed;
+      top: 18px;
+      right: 24px;
+      z-index: 1001;
+      background: #fde4ec;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px #ad145733;
+      padding: 0.3em;
+      transition: box-shadow 0.18s;
+    }
+    #basket-link:hover {
+      box-shadow: 0 6px 24px #ad145733;
+    }
+    /* --- Restante do CSS --- */
+    .product-card, .combo-card {
+      background: #fde4ec;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px #0001;
+      padding: 1em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 1em;
+    }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5em;
+    }
+    @media (max-width: 700px) {
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .product-card img {
+      width: 100%;
+      max-width: 220px;
+      min-width: 120px;
+      aspect-ratio: 1/1;
+      object-fit: contain;
+      border-radius: 12px;
+      margin-bottom: 0.7em;
+      background: #fde4ec;
+      padding: 8px;
+    }
+    .product-card button.add-to-cart {
+      background: #fde4ec;
+      color: #ad1457;
+      border: 2px solid #ad1457;
+      border-radius: 8px;
+      font-size: 1em;
+      font-weight: bold;
+      padding: 0.5em 1.2em;
+      margin-top: 0.5em;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border 0.2s;
+    }
+    .product-card button.add-to-cart:hover {
+      background: #ad1457;
+      color: #fff;
+      border-color: #ad1457;
+    }
+    /* Ajuste para o aside do combo ficar colado à esquerda */
+    main {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 2em;
+    }
+    aside#combo-dia {
+      flex: 0 0 320px;
+      max-width: 340px;
+      margin-left: 0;
+      margin-right: 0;
+      align-self: stretch;
+      background: none;
+      padding-left: 0;
+    }
+    @media (max-width: 900px) {
+      main {
+        flex-direction: column;
+        gap: 1em;
+      }
+      aside#combo-dia {
+        max-width: 100%;
+        width: 100%;
+        margin-bottom: 1em;
+      }
+    }
+    /* Fundo do menu de navegação igual ao header */
+    #menu-inicial .menu-option, #menu-inicial .icon-menu, #menu-inicial .icon {
+      background: #fde4ec;
+      border-radius: 12px;
+    }
+    #menu-inicial {
+      width: 100%;
+      margin-bottom: 1em;
+    }
+    #menu-inicial .menu-option {
+      display: flex;
+      gap: 1.5em;
+      justify-content: space-between;
+      width: 100%;
+      background: #fde4ec;
+      border-radius: 12px;
+      padding: 0.5em 0.5em;
+      box-sizing: border-box;
+    }
+    #menu-inicial .icon {
+      flex: 1 1 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+      padding: 0.2em 0.7em;
+      min-width: 0;
+      background: #fde4ec;
+      border-radius: 12px;
+      transition: background 0.2s;
+    }
+    #menu-inicial .icon:hover {
+      background: #fff8e1;
+    }
+    #menu-inicial .icon-menu {
+      display: block;
+      margin-bottom: 0.3em;
+      background: #fde4ec;
+      border-radius: 12px;
+      width: 70px;
+      height: 70px;
+      max-width: none;
+      max-height: none;
+    }
+    /* Remove fundo branco do body para não contrastar */
+    body {
+      background: #fff8e1;
+    }
+    @media (max-width: 700px) {
+      main {
+        flex-direction: column;
+        gap: 0.5em;
+      }
+      aside#combo-dia {
+        max-width: 100%;
+        min-width: unset;
+        margin-bottom: 1em;
+        padding: 1em 0.5em;
+      }
+      #menu-inicial {
+        max-width: 100%;
+      }
+      #menu-inicial .menu-option {
+        flex-direction: row;
+        gap: 0.5em;
+        padding: 0.3em 0.1em;
+      }
+      #menu-inicial .icon {
+        padding: 0.2em 0.2em;
+      }
+      #menu-inicial .icon-menu {
+        width: 48px;
+        height: 48px;
+      }
+    }
+    /* --- Microinterações: Ripple, Bounce, Fly to Cart --- */
+    .add-to-cart {
+      position: relative;
+      overflow: hidden;
+      /* bounce no hover */
+      transition: transform 0.18s cubic-bezier(.4,1.4,.6,1), box-shadow 0.18s;
+    }
+    .add-to-cart:hover {
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 4px 16px #ad145733;
+    }
+    .add-to-cart:active {
+      transform: scale(0.96) translateY(1px);
+      box-shadow: 0 2px 8px #ad145733;
+    }
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      animation: ripple-effect 0.5s linear;
+      background: rgba(173,20,87,0.18);
+      pointer-events: none;
+      z-index: 2;
+    }
+    @keyframes ripple-effect {
+      to {
+        transform: scale(2.5);
+        opacity: 0;
+      }
+    }
+    /* Fly to cart: animação temporária */
+    .fly-img {
+      position: fixed !important;
+      z-index: 9999;
+      pointer-events: none;
+      transition: transform 0.7s cubic-bezier(.4,1.4,.6,1), opacity 0.4s 0.5s;
+      will-change: transform, opacity;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px #ad145733;
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      opacity: 1;
+    }
+    html, body {
+      height: 100%;
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    main {
+      flex: 1 0 auto;
+    }
+    footer {
+      flex-shrink: 0;
+      margin-top: auto;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <img id="logo-brewblend" src="/images/brew&blendBanner.png" alt="Brew&Blend">
-        <img id="logo-brewblend-compact" src="/images/Brew&Blend.png" alt="Brew&Blend">
-    </header>
-    <main>
-        <div class="bem-vindo">
-            <h1>Seja Bem-Vindo!</h1>
-            <p>Por onde deseja começar?</p>
+  <header>
+    <a href="index.html" id="logo-link">
+      <img id="logo-brewblend" src="images/brew-blendBanner.png" alt="Brew&Blend">
+      <img id="logo-brewblend-compact" src="images/brew-Blend.png" alt="Brew&Blend">
+    </a>
+    <a href="carrinho.html" id="basket-link" aria-label="Carrinho com 0 itens" data-count="0">
+      <img id="basket-shopping" src="images/picnic-basket.png" alt="">
+    </a>
+  </header>
+
+  <main>
+    <aside id="combo-dia">
+      <section id="menu-combo">
+        <h2>Combo do Dia</h2>
+        <div class="combo-grid">
+          <div class="combo-card">
+            <img src="images/combo-coffee.png" alt="Cappuccino e Cupcake">
+            <h3>Cappuccino e Cupcake</h3>
+            <p>R$ 10,00</p>
+            <button class="add-to-cart" data-product-id="cappuccino-e-cupcake">
+              Adicionar
+            </button>
+          </div>
+          <div class="combo-card">
+            <img src="images/hamburguer-combo.png" alt="Burguer e Fritas">
+            <h3>Burguer e Fritas</h3>
+            <p>R$ 12,00</p>
+            <button class="add-to-cart" data-product-id="burguer-e-fritas">
+              Adicionar
+            </button>
+          </div>
+          <div class="combo-card">
+            <img src="images/cookies-combo.png" alt="Chocolate Quente com Cookies">
+            <h3>Chocolate Quente com Cookies</h3>
+            <p>R$ 12,00</p>
+            <button class="add-to-cart" data-product-id="chocolate-quente-com-cookies">
+              Adicionar
+            </button>
+          </div>
         </div>
-        <section id="menu-inicial">
-            <div class="menu-option">
-                <button class="icon">
-                    <img src="/images/coffee-icon.png" alt="Bebidas" class="icon-menu">
-                    <p>Bebidas</p>
-                </button>
-                <button class="icon">
-                    <img src="/images/croissant-icon.png" alt="Padaria" class="icon-menu">
-                    <p>Padaria</p>
-                </button>
-                <button class="icon">
-                    <img src="/images/cupcake-icon.png" alt="Sobremesas" class="icon-menu">
-                    <p>Sobremesas</p>
-                </button>
-            </div>
-        </section>
-        <section id="menu-combo">
-            <div id="combo-do-dia">COMBO DO DIA</div>
-            <div class="flip-card-container-wrapper">
-                <div class="flip-card-container" id="card-1">
-                    <div class="flip-card">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <img src="/images/combo-coffee.png" class="combo-img" alt="Combo">
-                            </div>
-                            <div class="flip-card-back">
-                                <img src="/images/flip-back-cover.png" class="combo-img" alt="preço">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-card-container" id="card-2">
-                    <div class="flip-card">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <img src="/images/hamburguer-combo.png" class="combo-img" alt="Combo">
-                            </div>
-                            <div class="flip-card-back">
-                                <img src="/images/flip-back-cover.png" class="combo-img" alt="preço">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-card-container" id="card-3">
-                    <div class="flip-card">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <img src="/images/cookies-combo.png" class="combo-img" alt="Combo">
-                            </div>
-                            <div class="flip-card-back">
-                                <img src="/images/flip-back-cover.png" class="combo-img" alt="preço">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>        
-    </main>
-    <footer>
-        <!--https://www.homemmaquina.com.br/dicas-rodape/-->
-    </footer>
+      </section>
+    </aside>
+    <section>
+      <div class="bem-vindo">
+        <h1>Seja Bem-Vindo!</h1>
+        <p>Por onde deseja começar?</p>
+      </div>
+      <nav id="menu-inicial" aria-label="Serviços">
+        <div class="menu-option">
+          <a href="#bebidas" class="icon">
+            <img src="images/coffee-icon.png" alt="Bebidas" class="icon-menu">
+            <p>Bebidas</p>
+          </a>
+          <a href="#padaria" class="icon">
+            <img src="images/croissant-icon.png" alt="Padaria" class="icon-menu">
+            <p>Padaria</p>
+          </a>
+          <a href="#sobremesas" class="icon">
+            <img src="images/cupcake-icon.png" alt="Sobremesas" class="icon-menu">
+            <p>Sobremesas</p>
+          </a>
+        </div>
+      </nav>
+      <section id="bebidas" class="products-section">
+        <h2>Bebidas</h2>
+        <div class="products-grid">
+          <div class="product-card">
+            <img src="images/cola.png" alt="Refrigerante">
+            <h3>Refrigerante</h3>
+            <p>R$ 5,00</p>
+            <button class="add-to-cart" data-product-id="refrigerante">Adicionar</button>
+          </div>
+          <div class="product-card">
+            <img src="images/hot-chocolate.png" alt="Chocolate Quente">
+            <h3>Chocolate Quente</h3>
+            <p>R$ 10,00</p>
+            <button class="add-to-cart" data-product-id="chocolate-quente">Adicionar</button>
+          </div>
+          <div class="product-card">
+            <img src="images/cappuccino.png" alt="Cappuccino">
+            <h3>Cappuccino</h3>
+            <p>R$ 8,00</p>
+            <button class="add-to-cart" data-product-id="cappuccino">Adicionar</button>
+          </div>
+          <div class="product-card">
+            <img src="images/cocktail.png" alt="Suco de Laranja">
+            <h3>Suco de Laranja</h3>
+            <p>R$ 7,10</p>
+            <button class="add-to-cart" data-product-id="suco-de-laranja">Adicionar</button>
+          </div>
+        </div>
+      </section>
+      <section id="padaria" class="products-section">
+        <h2>Padaria</h2>
+        <div class="products-grid">
+          <div class="product-card">
+            <img src="images/toast.png" alt="Pão na Chapa">
+            <h3>Pão na Chapa</h3>
+            <p>R$ 5,00</p>
+            <button class="add-to-cart" data-product-id="pao-na-chapa">Adicionar</button>
+          </div>
+          <div class="product-card">
+            <img src="images/croissant.png" alt="Croissant">
+            <h3>Croissant</h3>
+            <p>R$ 6,35</p>
+            <button class="add-to-cart" data-product-id="croissant">Adicionar</button>
+          </div>
+          <div class="product-card">
+            <img src="images/pie.png" alt="Torta de Frango">
+            <h3>Torta de Frango</h3>
+            <p>R$ 6,30</p>
+            <button class="add-to-cart" data-product-id="torta-de-frango">Adicionar</button>
+          </div>
+          <div class="product-card">
+            <img src="images/sandwich.png" alt="Sanduíche Natural">
+            <h3>Sanduíche Natural</h3>
+            <p>R$ 7,12</p>
+            <button class="add-to-cart" data-product-id="sanduiche-natural">Adicionar</button>
+          </div>
+        </div>
+      </section>
+      <section id="sobremesas" class="products-section">
+        <h2>Sobremesas</h2>
+        <div class="products-grid">
+          <div class="product-card">
+            <img src="images/cookies.png" alt="Cookie">
+            <h3>Cookie</h3>
+            <p>R$ 3,00</p>
+            <button class="add-to-cart" data-product-id="cookie">Adicionar</button>
+          </div>
+          <div class="product-card">
+            <img src="images/cupcake.png" alt="Cupcake">
+            <h3>Cupcake</h3>
+            <p>R$ 4,00</p>
+            <button class="add-to-cart" data-product-id="cupcake">Adicionar</button>
+          </div>
+          <div class="product-card">
+            <img src="images/strawberry-cake.png" alt="Fatia de Bolo">
+            <h3>Fatia de Bolo</h3>
+            <p>R$ 4,90</p>
+            <button class="add-to-cart" data-product-id="fatia-de-bolo">Adicionar</button>
+          </div>
+          <div class="product-card">
+            <img src="images/donut.png" alt="Donut">
+            <h3>Donut</h3>
+            <p>R$ 3,25</p>
+            <button class="add-to-cart" data-product-id="donut">Adicionar</button>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Brew&Blend. Todos os direitos reservados.</p>
+  </footer>
+
+  <script type="module" src="js/products.js"></script>
+  <script type="module" src="js/scripts.js" defer></script>
 </body>
 </html>

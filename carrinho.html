@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Brew&Blend – Carrinho</title>
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    html, body {
+      height: 100%;
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    main {
+      flex: 1 0 auto;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2em 1em 1em 1em;
+      display: flex;
+      flex-direction: row;
+      gap: 2em;
+      box-sizing: border-box;
+    }
+    .cart-section {
+      flex: 2 1 0;
+      min-width: 320px;
+      max-width: 700px;
+    }
+    .summary-section {
+      flex: 1 1 320px;
+      min-width: 320px;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1em;
+    }
+    #cart-items {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .cart-item {
+      background: #fde4ec;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px #0001;
+      display: flex;
+      align-items: center;
+      margin-bottom: 1em;
+      padding: 1em;
+    }
+    .cart-item img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px #0001;
+      margin-right: 1em;
+      background: #fff8e1;
+      padding: 8px;
+    }
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      margin-top: 0.5em;
+    }
+    .qty-controls button.decrease-qty,
+    .qty-controls button.increase-qty {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: #f8bbd0;
+      color: #ad1457;
+      font-size: 1.5em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 4px #0001;
+    }
+    .qty-controls button.decrease-qty:hover,
+    .qty-controls button.increase-qty:hover {
+      background: #f06292;
+      color: #fff;
+    }
+    .qty-controls .qty-value {
+      min-width: 32px;
+      text-align: center;
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #ad1457;
+      background: none;
+      border: none;
+      margin: 0 0.2em;
+    }
+    /* Tooltip customizado para ícones de ação */
+    .icon-tooltip {
+      display: none;
+      position: absolute;
+      left: 50%;
+      top: 110%;
+      transform: translateX(-50%);
+      background: #fffbe6;
+      color: #ad1457;
+      font-size: 1em;
+      padding: 0.3em 0.8em;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px #0002;
+      white-space: nowrap;
+      z-index: 10;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.18s, top 0.18s;
+    }
+    #clear-cart:hover .icon-tooltip,
+    #go-checkout:hover .icon-tooltip {
+      display: block;
+      opacity: 1;
+      top: 120%;
+    }
+    #clear-cart, #go-checkout {
+      position: relative;
+    }
+    /* Ícones de Limpar Carrinho e Finalizar Pedido com 60px */
+    #clear-cart img,
+    #go-checkout img {
+      width: 60px !important;
+      height: 60px !important;
+      min-width: 60px;
+      min-height: 60px;
+      max-width: 60px;
+      max-height: 60px;
+      vertical-align: middle;
+      margin: 0;
+      filter: drop-shadow(0 1px 2px #ad145733);
+    }
+    header {
+      background: #fde4ec;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 1.2em 0 0.7em 0;
+      box-sizing: border-box;
+      position: relative;
+    }
+    #logo-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      z-index: 2;
+    }
+    #logo-brewblend {
+      width: 500px;
+      height: auto;
+      max-width: 98vw;
+      margin: 0 auto;
+      display: block;
+    }
+    #logo-brewblend-compact {
+      width: 60px;
+      height: auto;
+      margin-left: 0.5em;
+      display: none;
+    }
+    #basket-link {
+      position: fixed;
+      top: 18px;
+      right: 24px;
+      z-index: 1001;
+      background: #fde4ec;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px #ad145733;
+      padding: 0.3em;
+      transition: box-shadow 0.18s;
+    }
+    #basket-link:hover {
+      box-shadow: 0 6px 24px #ad145733;
+    }
+    @media (max-width: 900px) {
+      main {
+        flex-direction: column;
+        gap: 1.5em;
+        padding: 1em 0.5em 1em 0.5em;
+      }
+      .cart-section, .summary-section {
+        max-width: 100%;
+        min-width: 0;
+        width: 100%;
+      }
+      .summary-section {
+        align-items: stretch;
+      }
+    }
+    @media (max-width: 600px) {
+      main {
+        flex-direction: column;
+        gap: 1em;
+        padding: 0.5em 0.2em 1em 0.2em;
+      }
+      .cart-section, .summary-section {
+        max-width: 100%;
+        min-width: 0;
+        width: 100%;
+      }
+      .summary-section {
+        align-items: stretch;
+      }
+      .qty-controls button.decrease-qty,
+      .qty-controls button.increase-qty { width: 28px; height: 28px; font-size: 1.1em; }
+      .qty-controls .qty-value { font-size: 1em; min-width: 22px; }
+      .cart-item img { width: 60px; height: 60px; }
+      .cart-item { padding: 0.5em; }
+      #logo-brewblend {
+        width: 300px;
+      }
+      #logo-brewblend-compact {
+        width: 38px;
+      }
+      #basket-link {
+        top: 10px;
+        right: 10px;
+        padding: 0.15em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" id="logo-link">
+      <img id="logo-brewblend" src="images/brew-blendBanner.png" alt="Brew&Blend">
+      <img id="logo-brewblend-compact" src="images/brew-Blend.png" alt="Brew&Blend">
+    </a>
+    <a href="carrinho.html" id="basket-link" aria-label="Carrinho com 0 itens" data-count="0">
+      <img id="basket-shopping" src="images/picnic-basket.png" alt="">
+    </a>
+  </header>
+  <main>
+    <div class="cart-section">
+      <h1>Seu Carrinho</h1>
+      <ul id="cart-items">
+        <!-- renderCartPage() injeta li ou mensagem de vazio -->
+      </ul>
+    </div>
+    <div class="summary-section">
+      <div id="cart-summary" style="width: 100%; display: flex; flex-direction: column; align-items: flex-end; gap: 1em;">
+        <p>Total: R$ <span id="cart-total">0,00</span></p>
+        <div style="width: 100%; display: flex; justify-content: space-between; align-items: flex-end;">
+          <div style="display: flex; align-items: center; gap: 0.5em;">
+            <button id="clear-cart" title="Limpar Carrinho" style="background: none; border: none; cursor: pointer; padding: 0.2em; display: flex; align-items: center; position: relative;">
+              <img src="images/clean.png" alt="Limpar Carrinho">
+              <span class="icon-tooltip">Limpar Carrinho</span>
+            </button>
+            <button id="undo-clear-cart" title="Desfazer Limpar Carrinho" style="display:none; background: #fffbe6; border: 1px solid #e0c97f; color: #b38b00; border-radius: 6px; padding: 0.3em 1em; font-size: 1em; margin-left: 0.5em; cursor: pointer;">
+              Desfazer
+            </button>
+          </div>
+          <a href="checkout.html" id="go-checkout" class="btn-checkout" title="Finalizar Compra"
+            style="display: flex; align-items: center; justify-content: center; background: #4caf50; color: #fff; font-size: 1.3em; font-weight: bold; border-radius: 8px; padding: 0.7em 2em; box-shadow: 0 2px 8px #0002; text-decoration: none; min-width: 220px; min-height: 56px; transition: background 0.2s; position: relative;">
+            <img src="images/secure-payment.png" alt="Finalizar Compra">
+            <span class="checkout-text" style="display:none;">Finalizar Compra</span>
+            <span class="icon-tooltip">Finalizar Pedido</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <script>
+      let lastCart = null;
+      const clearBtn = document.getElementById('clear-cart');
+      const undoBtn = document.getElementById('undo-clear-cart');
+      clearBtn && clearBtn.addEventListener('click', function() {
+        try {
+          lastCart = JSON.parse(localStorage.getItem('cartItems')) || [];
+        } catch { lastCart = []; }
+        localStorage.setItem('cartItems', JSON.stringify([]));
+        window.dispatchEvent(new Event('cartChanged'));
+        if (undoBtn) undoBtn.style.display = 'inline-block';
+      });
+      undoBtn && undoBtn.addEventListener('click', function() {
+        if (lastCart && lastCart.length) {
+          localStorage.setItem('cartItems', JSON.stringify(lastCart));
+          window.dispatchEvent(new Event('cartChanged'));
+          // Atualiza a interface do carrinho imediatamente
+          if (typeof renderCartPage === 'function') renderCartPage();
+        }
+        if (undoBtn) undoBtn.style.display = 'none';
+      });
+    </script>
+  </main>
+  <footer>
+    <p>© 2025 Brew&Blend. Todos os direitos reservados.</p>
+  </footer>
+  <script type="module" src="js/products.js"></script>
+  <script type="module" src="js/carrinho.js" defer></script>
+</body>
+</html>
